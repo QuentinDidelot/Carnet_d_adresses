@@ -11,6 +11,11 @@ while (true) {
 
     $line = readline("Entrez votre commande (help, list, detail, create, delete, quit) : ");
 
+    if ($line == 'help') {
+        $commandClass->help();
+        continue;
+    }
+
     if ($line == 'list') {
         $commandClass->list(); 
         continue;
@@ -31,7 +36,7 @@ while (true) {
         continue;
     }
 
-    if ($line == "quit") {
+    if ($line == 'quit') {
         echo "Vous avez bien quitté le gestionnaire de carnet d'adresse";
         break;
     }
