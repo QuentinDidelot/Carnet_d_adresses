@@ -14,7 +14,7 @@ class Command
         $this->manager = new ContactManager();
     }
 
-    
+
     public function list(): void
     {
         $contacts = $this->manager->findAll();
@@ -28,25 +28,29 @@ class Command
         echo "id, nom, email, telephone\n";
         
         foreach ($contacts as $contact) {
-            echo $contact->__toString();
+            echo $contact;
         }
     }
 
 
-    public function detail($id): void {
+    public function detail($id): void 
+    {
+
         $contact = $this->manager->findById($id);
+
         if (!$contact) {
             echo "Contact non trouvé\n";
             return;
         }
-        echo $contact->__toString();
+
+        echo $contact;
     }
 
 
     public function create($name, $email, $telephone): void
     {
         $contact = $this->manager->create($name, $email, $telephone);
-        echo "Contact créé : " . $contact->__toString();
+        echo "Contact créé : " . $contact;
     }
 
 
