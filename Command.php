@@ -14,15 +14,22 @@ class Command
         $this->manager = new ContactManager();
     }
 
+    
+    public function list(): void
+    {
+        $contacts = $this->manager->findAll();
+        
+        if (empty($contacts)) {
+            echo "Aucun contact\n";
+            return;
+        }
 
-    public function help(): void {
-        echo "help : affiche cette aide\n";
-        echo "list : liste les contacts\n";
-        echo "create [nom], [email], [telephone] : crée un contact\n";
-        echo "delete [id] : supprime un contact\n";
-        echo "quit : quitte le programme\n";
-        echo "\n";
-        echo "Attention à la syntaxe des commandes, les espaces, virgules et majuscules sont importantes.\n";
+        echo "Liste des contacts : \n";
+        echo "id, nom, email, telephone\n";
+        
+        foreach ($contacts as $contact) {
+            echo $contact->__toString();
+        }
     }
 
 
@@ -36,22 +43,6 @@ class Command
     }
 
 
-    public function list(): void
-    {
-        $contacts = $this->manager->findAll();
-        
-        if (empty($contacts)) {
-            echo "Aucun contact\n";
-            return;
-        }
-
-        echo "Liste des contacts : \n";
-        echo "id, nom, email, telephone\n";
-        foreach ($contacts as $contact) {
-            echo $contact->__toString();
-        }
-    }
-
     public function create($name, $email, $telephone): void
     {
         $contact = $this->manager->create($name, $email, $telephone);
@@ -63,6 +54,16 @@ class Command
     {
         $this->manager->delete($id);
         echo "Contact supprimé\n";
+    }
+
+    public function help(): void {
+        echo "help : affiche cette aide\n";
+        echo "list : liste les contacts\n";
+        echo "create [nom], [email], [telephone] : crée un contact\n";
+        echo "delete [id] : supprime un contact\n";
+        echo "quit : quitte le programme\n";
+        echo "\n";
+        echo "Attention à la syntaxe des commandes, les espaces, virgules et majuscules sont importantes.\n";
     }
 
 }

@@ -17,28 +17,34 @@ class ContactManager
     }
 
 
+    /* Méthode permettant de trouver tous les contacts de la table "contact
+    */
+
     public function findAll(): array
     {
-        $query = $this->db->prepare("SELECT * FROM contact");
-        $query->execute();
+        $requete = $this->db->prepare("SELECT * FROM contact");
+        $requete->execute();
 
         $contacts = [];
-        while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
+        while ($row = $requete->fetch(PDO::FETCH_ASSOC)) {
             $contacts[] = Contact::fromArray($row);
         }
         
         return $contacts;
     }
 
+    
 
     public function findById(int $id): ?Contact
     {
-        $query = $this->db->prepare("SELECT * FROM contact WHERE id = :id");
-        $query->execute(["id" => $id]);
-        $contact = $query->fetch(PDO::FETCH_ASSOC);
+        $requete = $this->db->prepare("SELECT * FROM contact WHERE id = :id");
+        $requete->execute(["id" => $id]);
+
+        $contact = $requete->fetch(PDO::FETCH_ASSOC);
         if (!$contact) {
             return null;
         }
+        
         $contact = Contact::fromArray($contact);
         return $contact;
     }
@@ -46,8 +52,8 @@ class ContactManager
 
     public function create(string $name, string $email, string $telephone): Contact
     {
-        $query = $this->db->prepare("INSERT INTO contact (name, email, telephone) VALUES (:name, :email, :telephone)");
-        $query->execute(["name" => $name, "email" => $email, "telephone" => $telephone]);
+        $requete = $this->db->prepare("INSERT INTO contact (name, email, telephone) VALUES (:name, :email, :telephone)");
+        $requete->execute(["name" => $name, "email" => $email, "telephone" => $telephone]);
         $id = $this->db->lastInsertId();
 
         return $this->findById($id);
@@ -55,8 +61,8 @@ class ContactManager
 
     public function delete(int $id): void
     {
-        $query = $this->db->prepare("DELETE FROM contact WHERE id = :id");
-        $query->bindParam(":id", $id);
-        $query->execute();
+        $requete = $this->db->prepare("DELETE FROM contact WHERE id = :id");
+        $requete->bindParam(":id", $id);
+        $requete->execute();
     }
 }
